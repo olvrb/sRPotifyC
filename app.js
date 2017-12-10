@@ -10,6 +10,11 @@ client.on('connected', () => {
   log('Connected!')
 })
 
+function nowPlayingURL() {
+  spotify.getStatus((err, res) => {
+    console.log(res.track.track_resource.uri.replace('spotify:track:', 'https://open.spotify.com/track/'))
+  })
+}
 
 function updatePlaying() {
   spotify.getStatus((err, res) => {
@@ -29,7 +34,6 @@ function updatePlaying() {
       return;
     }
     if (res.playing && res.track.track_resource.name) {
-      log('playing')
       client.updatePresence({
         details: `🎵 ${res.track.track_resource.name}`, //track name      
         state: `💿 ${res.track.artist_resource.name}`, //artist name
@@ -42,11 +46,10 @@ function updatePlaying() {
         smallImageText: `Playing`
       });
     } else if (!res.playing) {
-      log('paused')
       client.updatePresence({
         details: `🎵 ${res.track.track_resource.name}`, //track name      
         state: `💿 Paused`, //artist name
-        endTimestamp: (Date.now() / 1000) + +Math.round(res.playing_position), //works now
+        startTimestamp: new Date(),
         largeImageKey: 'spotify_logo', //client asset
         smallImageKey: 'pause', //client asset
         instance: true, //tbh idk what this does
@@ -69,5 +72,6 @@ updatePlaying();
 
 setInterval(() => {
   updatePlaying();
-  log(`updated`)
-}, 15e2)
+  nowPlayingURL();
+  //log(`updated`)
+}, 15e3)
