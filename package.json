@@ -1,0 +1,22 @@
+{
+  "name": "spotify",
+  "version": "1.0.0",
+  "description": "spotif to discord-rpc client",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [
+    "spotify",
+    "discord",
+    "discord-rpc",
+    "rpc"
+  ],
+  "author": "oliver boudet",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "discord-rich-presence": "0.0.3",
+    "fancy-log": "^1.3.0",
+    "node-spotify-webhelper": "0.0.6"
+  }
+}
