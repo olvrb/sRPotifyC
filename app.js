@@ -21,7 +21,7 @@ function updatePlaying() {
     if (err) {
       return log(err);
     }
-    if (!res)  {
+    if (res.track.type == "ad")  {
       log('no music playing')
       client.updatePresence({
         details: `🎵 No music playing.`, //track name      
@@ -69,7 +69,7 @@ function updatePlaying() {
   });
 }
 updatePlaying();
-
+process.on('uncaughtException', console.error)
 setInterval(() => {
   updatePlaying();
   nowPlayingURL();
