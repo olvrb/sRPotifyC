@@ -22,12 +22,11 @@ function updatePlaying() {
     if (err) {
       return log(err);
     }
-    console.log(res.track.track_type)
     if (res.track.track_type == "ad")  {
       log('no music playing')
       client.updatePresence({
         details: `🎵 No music playing.`, //track name      
-        state: `💿 Advertisements.`, //artist name
+        state: `👤 Advertisements.`, //artist name
         startTimestamp: new Date(), //ehh
         largeImageKey: 'spotify_logo', //client asset
         smallImageKey: 'play', //client asset
@@ -40,7 +39,7 @@ function updatePlaying() {
     if (res.playing && res.track.track_resource.name) {
       client.updatePresence({
         details: `🎵 ${res.track.track_resource.name}`, //track name      
-        state: `💿 ${res.track.artist_resource.name}`, //artist name
+        state: `👤 ${res.track.artist_resource.name}`, //artist name
         //startTimestamp: new Date(),
         endTimestamp: res.playing ? ((Date.now() / 1000) + +(res.track.length - Math.round(res.playing_position))) : null, //works now
         largeImageKey: 'spotify_logo', //client asset
@@ -52,7 +51,7 @@ function updatePlaying() {
     } else if (!res.playing) {
       client.updatePresence({
         details: `🎵 ${res.track.track_resource.name}`, //track name      
-        state: `💿 Paused`, //artist name
+        state: `👤 Paused`, //artist name
         startTimestamp: new Date(),
         largeImageKey: 'spotify_logo', //client asset
         smallImageKey: 'pause', //client asset
@@ -63,7 +62,7 @@ function updatePlaying() {
     } else {
       client.updatePresence({
         details: `🎵 Nothing playing.`, //track name      
-        state: `💿 N/A.`, //artist name
+        state: `👤 N/A.`, //artist name
         startTimestamp: new Date(), //ehh
         largeImageKey: 'spotify_logo', //client asset
         smallImageKey: 'play', //client asset
