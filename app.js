@@ -31,6 +31,8 @@ function updatePlaying() {
         startTimestamp: new Date(), //ehh
         largeImageKey: 'spotify_logo', //client asset
         smallImageKey: 'play', //client asset
+        largeImageText: '--',
+        smallImageText: 'Stopped',
         instance: true, //tbh idk what this does
       });
       return;
@@ -76,4 +78,4 @@ setInterval(() => {
   updatePlaying();
   nowPlayingURL();
   //log(`updated`)
-}, 15e2)
+}, 15e3)
