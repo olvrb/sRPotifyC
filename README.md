@@ -6,4 +6,11 @@ spotify rich presence for discord
 
 You will need to download [this file](https://github.com/nations/spoticord/blob/master/spotify.js) and place it in the same directory as app.js.
 
-From here you can just run `npm run start`, and it should connect.
+From here you can just run 
+`$ npm install`
+`$ npm run start`
+and it should connect.
+
+
+So what's the difference, you might ask.
+Well, some users have told me that spoticord struggles with ads, this on doesn't.

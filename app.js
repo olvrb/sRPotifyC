@@ -1,3 +1,4 @@
+//
 //  Created by Oliver Boudet on 12/10/2017.
 //  Copyright © 2017 Oliver Boudet. All rights reserved.
 //
@@ -9,7 +10,6 @@ const log = require('fancy-log');
 client.on('connected', () => {
   log('Connected!')
 })
-
 function nowPlayingURL() {
   spotify.getStatus((err, res) => {
     if (res.track.track_type == "ad") return;
@@ -18,7 +18,7 @@ function nowPlayingURL() {
 }
 
 function updatePlaying() {
-  spotify.getStatus((err, res) => {
+spotify.getStatus((err, res) => {
     if (err) {
       return log(err);
     }
@@ -52,7 +52,7 @@ function updatePlaying() {
       client.updatePresence({
         details: `🎵 ${res.track.track_resource.name}`, //track name      
         state: `👤 Paused`, //artist name
-        startTimestamp: new Date(),
+        startTimestamp: res.playing ? new Date() : null,
         largeImageKey: 'spotify_logo', //client asset
         smallImageKey: 'pause', //client asset
         instance: true, //tbh idk what this does
