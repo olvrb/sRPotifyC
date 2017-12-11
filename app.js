@@ -12,6 +12,7 @@ client.on('connected', () => {
 
 function nowPlayingURL() {
   spotify.getStatus((err, res) => {
+    if (res.track.track_type == "ad") return;
     console.log(res.track.track_resource.uri.replace('spotify:track:', 'https://open.spotify.com/track/'))
   })
 }
@@ -21,7 +22,8 @@ function updatePlaying() {
     if (err) {
       return log(err);
     }
-    if (res.track.type == "ad")  {
+    console.log(res.track.track_type)
+    if (res.track.track_type == "ad")  {
       log('no music playing')
       client.updatePresence({
         details: `🎵 No music playing.`, //track name      
@@ -74,4 +76,4 @@ setInterval(() => {
   updatePlaying();
   nowPlayingURL();
   //log(`updated`)
-}, 15e3)
+}, 15e2)
