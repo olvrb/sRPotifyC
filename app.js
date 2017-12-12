@@ -72,7 +72,6 @@ spotify.getStatus((err, res) => {
   });
 }
 updatePlaying();
-process.on('uncaughtException', console.error)
 setInterval(() => {
   updatePlaying();
   nowPlayingURL();
