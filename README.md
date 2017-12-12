@@ -8,6 +8,7 @@ You will need to download [this file](https://github.com/nations/spoticord/blob/
 
 From here you can just run 
 `$ npm install`
+
 `$ npm run start`
 and it should connect.
 
