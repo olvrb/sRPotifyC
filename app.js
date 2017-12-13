@@ -18,23 +18,27 @@ function nowPlayingURL() {
 }
 
 function updatePlaying() {
-spotify.getStatus((err, res) => {
+  spotify.getStatus((err, res) => {
     if (err) {
       return log(err);
     }
-    if (res.track.track_type == "ad")  {
-      log('no music playing')
-      client.updatePresence({
-        details: `🎵 No music playing.`, //track name      
-        state: `👤 Advertisements.`, //artist name
-        startTimestamp: new Date(), //ehh
-        largeImageKey: 'spotify_logo', //client asset
-        smallImageKey: 'play', //client asset
-        largeImageText: '--',
-        smallImageText: 'Stopped',
-        instance: true, //tbh idk what this does
-      });
-      return;
+    try {
+      if (res.track.track_type == "ad")  {
+        log('no music playing')
+        client.updatePresence({
+          details: `🎵 No music playing.`, //track name      
+          state: `👤 Advertisements.`, //artist name
+          startTimestamp: new Date(), //ehh
+          largeImageKey: 'spotify_logo', //client asset
+          smallImageKey: 'play', //client asset
+          largeImageText: '--',
+          smallImageText: 'Stopped',
+          instance: true, //tbh idk what this does
+        });
+        return;
+      }
+    } catch (uncaughException) {
+      throw uncaughException; 
     }
     if (res.playing && res.track.track_resource.name) {
       client.updatePresence({
