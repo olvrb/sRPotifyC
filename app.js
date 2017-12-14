@@ -2,7 +2,7 @@
 //  Created by Oliver Boudet on 12/10/2017.
 //  Copyright © 2017 Oliver Boudet. All rights reserved.
 //
-
+const notifier = require('node-notifier');
 const client = require('discord-rich-presence')('389391921401036803');
 var nodeSpotifyWebHelper = require('./spotify');
 var spotify = new nodeSpotifyWebHelper.SpotifyWebHelper();
@@ -20,6 +20,13 @@ function nowPlayingURL() {
 function updatePlaying() {
   spotify.getStatus((err, res) => {
     if (err) {
+      notifier.notify({
+        title: 'Spotify Error!',
+        message: 'Couldn\'t connect to spotify. Please open spotify and restart the script.',
+        icon: 'https://dl2.macupdate.com/images/icons256/33033.png?d=1511990622', // Absolute path (doesn't work on balloons) 
+        sound: true, // Only Notification Center or Windows Toasters 
+        wait: true // Wait with callback, until user action is taken against notification 
+      }, (err, response) =>  {  });
       return log(err);
     }
     try {
@@ -39,6 +46,7 @@ function updatePlaying() {
       }
     } catch (uncaughException) {
       throw uncaughException; 
+      return;
     }
     if (res.playing && res.track.track_resource.name) {
       client.updatePresence({
