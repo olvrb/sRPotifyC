@@ -16,13 +16,12 @@ function nowPlayingURL() {
     console.log(res.track.track_resource.uri.replace('spotify:track:', 'https://open.spotify.com/track/'))
   })
 }
-
 function updatePlaying() {
   spotify.getStatus((err, res) => {
     if (err) {
       notifier.notify({
         title: 'Spotify Error!',
-        message: 'Couldn\'t connect to spotify. Please open spotify and restart the script.',
+        message: 'Could not connect to spotify. Please open spotify and restart the script.',
         icon: 'https://dl2.macupdate.com/images/icons256/33033.png?d=1511990622', // Absolute path (doesn't work on balloons) 
         sound: true, // Only Notification Center or Windows Toasters 
         wait: true // Wait with callback, until user action is taken against notification 
