@@ -16,12 +16,13 @@ function nowPlayingURL() {
     console.log(res.track.track_resource.uri.replace('spotify:track:', 'https://open.spotify.com/track/'))
   })
 }
+
 function updatePlaying() {
   spotify.getStatus((err, res) => {
     if (err) {
       notifier.notify({
         title: 'Spotify Error!',
-        message: 'Could not connect to spotify. Please open spotify and restart the script.',
+        message: 'Couldn\'t connect to spotify. Please open spotify and restart the script.',
         icon: 'https://dl2.macupdate.com/images/icons256/33033.png?d=1511990622', // Absolute path (doesn't work on balloons) 
         sound: true, // Only Notification Center or Windows Toasters 
         wait: true // Wait with callback, until user action is taken against notification 
@@ -34,7 +35,7 @@ function updatePlaying() {
         client.updatePresence({
           details: `🎵 No music playing.`, //track name      
           state: `👤 Advertisements.`, //artist name
-          startTimestamp: new Date(), //ehh
+          startTimestamp: res.playing ? new Date() : null, //ehh
           largeImageKey: 'spotify_logo', //client asset
           smallImageKey: 'play', //client asset
           largeImageText: '--',
@@ -47,38 +48,42 @@ function updatePlaying() {
       throw uncaughException; 
       return;
     }
-    if (res.playing && res.track.track_resource.name) {
-      client.updatePresence({
-        details: `🎵 ${res.track.track_resource.name}`, //track name      
-        state: `👤 ${res.track.artist_resource.name}`, //artist name
-        //startTimestamp: new Date(),
-        endTimestamp: res.playing ? ((Date.now() / 1000) + +(res.track.length - Math.round(res.playing_position))) : null, //works now
-        largeImageKey: 'spotify_logo', //client asset
-        smallImageKey: 'play', //client asset
-        instance: true, //tbh idk what this does
-        largeImageText: `${res.track.artist_resource.name} - ${res.track.track_resource.name}`,
-        smallImageText: `Playing`
-      });
-    } else if (!res.playing) {
-      client.updatePresence({
-        details: `🎵 ${res.track.track_resource.name}`, //track name      
-        state: `👤 Paused`, //artist name
-        startTimestamp: res.playing ? new Date() : null,
-        largeImageKey: 'spotify_logo', //client asset
-        smallImageKey: 'pause', //client asset
-        instance: true, //tbh idk what this does
-        largeImageText: `${res.track.artist_resource.name} - ${res.track.track_resource.name}`,
-        smallImageText: `Paused`
-      });
-    } else {
-      client.updatePresence({
-        details: `🎵 Nothing playing.`, //track name      
-        state: `👤 N/A.`, //artist name
-        startTimestamp: new Date(), //ehh
-        largeImageKey: 'spotify_logo', //client asset
-        smallImageKey: 'play', //client asset
-        instance: true, //tbh idk what this does
-      });
+    try {
+      if (res.playing && res.track.track_resource.name) {
+        client.updatePresence({
+          details: `🎵 ${res.track.track_resource.name}`, //track name      
+          state: `👤 ${res.track.artist_resource.name}`, //artist name
+          //startTimestamp: new Date(),
+          endTimestamp: res.playing ? ((Date.now() / 1000) + +(res.track.length - Math.round(res.playing_position))) : null, //works now
+          largeImageKey: 'spotify_logo', //client asset
+          smallImageKey: 'play', //client asset
+          instance: true, //tbh idk what this does
+          largeImageText: `${res.track.artist_resource.name} - ${res.track.track_resource.name}`,
+          smallImageText: `Playing`
+        });
+      } else if (!res.playing) {
+        client.updatePresence({
+          details: `🎵 ${res.track.track_resource.name}`, //track name      
+          state: `👤 Paused`, //artist name
+          startTimestamp: null,
+          largeImageKey: 'spotify_logo', //client asset
+          smallImageKey: 'pause', //client asset
+          instance: true, //tbh idk what this does
+          largeImageText: `${res.track.artist_resource.name} - ${res.track.track_resource.name}`,
+          smallImageText: `Paused`
+        });
+      } else {
+        client.updatePresence({
+          details: `🎵 Nothing playing.`, //track name      
+          state: `👤 N/A.`, //artist name
+          startTimestamp: new Date(), //ehh
+          largeImageKey: 'spotify_logo', //client asset
+          smallImageKey: 'pause', //client asset
+          instance: true, //tbh idk what this does
+        });
+      }
+    } catch (uncaughException) {
+      throw uncaughException;
     }
   });
 }
@@ -87,4 +92,4 @@ setInterval(() => {
   updatePlaying();
   nowPlayingURL();
   //log(`updated`)
-}, 15e3)
+}, 5e3)

@@ -1,3 +1,5 @@
+# THIS IS DEPRECATED, USE [THIS](https://support.discordapp.com/hc/en-us/articles/360000167212) INSTEAD!
+
 # sRPotifyC [![discordxd](https://discordapp.com/api/guilds/389718274356674560/embed.png)](https://discord.gg/FGRVmnj)
 spotify rich presence for discord
 
